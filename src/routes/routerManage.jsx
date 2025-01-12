@@ -4,6 +4,7 @@ import { RoutesPath } from './Routepath'
 
 
 export const RouterManager = () =>{
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const route = useMemo (
         () => Object.keys(RoutesPath).map((path) => {
             const RouteComponent = RoutesPath[path];
