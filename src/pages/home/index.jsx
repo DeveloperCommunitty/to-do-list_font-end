@@ -1,9 +1,9 @@
-export function Home (){
+import { Box } from "@mui/material";
 
-    return (
-        <div>
-
-
-        </div>
-    )
+export function Home() {
+  return (
+    <Box>
+      
+    </Box>
+  );
 }
