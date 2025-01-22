@@ -6,6 +6,7 @@ import InsercaoCodigo from "../pages/insercao_codigo"
 import AdSenha from "../pages/ad_senha"
 import AlterarSenha from "../pages/alt_senha"
 import ConfirmaçãoSenha from "../pages/conf_senha"
+import Administracao from "../pages/administracao"
 
 export const RoutesPath = {
 
@@ -16,6 +17,7 @@ export const RoutesPath = {
     '/insercao_codigo': InsercaoCodigo,
     '/ad_senha': AdSenha, 
     'alt_senha': AlterarSenha,
-    'conf_senha': ConfirmaçãoSenha
+    'conf_senha': ConfirmaçãoSenha,
+    '/administracao': Administracao
 
 }
