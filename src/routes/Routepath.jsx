@@ -7,6 +7,7 @@ import AdSenha from "../pages/ad_senha"
 import AlterarSenha from "../pages/alt_senha"
 import ConfirmaçãoSenha from "../pages/conf_senha"
 import Administracao from "../pages/administracao"
+import Tarefa from "../pages/tarefas";
 
 export const RoutesPath = {
 
@@ -18,6 +19,7 @@ export const RoutesPath = {
     '/ad_senha': AdSenha, 
     'alt_senha': AlterarSenha,
     'conf_senha': ConfirmaçãoSenha,
-    '/administracao': Administracao
+    '/administracao': Administracao,
+    "/tarefas": Tarefa,
 
 }
