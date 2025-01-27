@@ -1,5 +1,4 @@
 import Cadastro from "../pages/cadastro"
-import { Home } from "../pages/home"
 import Login from "../pages/login"
 import RecuperacaoSenha from "../pages/recuperacao_senha"
 import InsercaoCodigo from "../pages/insercao_codigo"
@@ -11,8 +10,7 @@ import Tarefa from "../pages/tarefas";
 
 export const RoutesPath = {
 
-    '/':Home,
-    '/login':Login,
+    '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,
     '/insercao_codigo': InsercaoCodigo,
