@@ -5,7 +5,6 @@ import { Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DoneIcon from "@mui/icons-material/Done";
 import SearchIcon from "@mui/icons-material/Search";
 import Input from "@mui/material/Input";
@@ -13,6 +12,8 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import FolderIcon from "@mui/icons-material/Folder";
+import ModalTarefa from "../modal_tarefa";
+import ModalEditar from "../modal_editar";
 
 export default function SimplePaper() {
   return (
@@ -45,13 +46,7 @@ export default function SimplePaper() {
             paddingBottom: "20px",
           }}
         >
-          <IconButton
-            aria-label="delete"
-            size="large"
-            sx={{ border: "3px solid black", mr: 1 }}
-          >
-            <NoteAddIcon />
-          </IconButton>
+          <ModalTarefa />
 
           <IconButton
             aria-label="delete"
@@ -130,13 +125,7 @@ export default function SimplePaper() {
             <DoneIcon />
           </IconButton>
 
-          <IconButton
-            aria-label="delete"
-            size="mediun"
-            sx={{ border: "2px solid black", ml: 1 }}
-          >
-            <BorderColorIcon />
-          </IconButton>
+          <ModalEditar />
 
           <Typography
             variant="h6"
@@ -182,13 +171,7 @@ export default function SimplePaper() {
             <DoneIcon />
           </IconButton>
 
-          <IconButton
-            aria-label="delete"
-            size="mediun"
-            sx={{ border: "2px solid black", ml: 1 }}
-          >
-            <BorderColorIcon />
-          </IconButton>
+          <ModalEditar />
 
           <Typography
             variant="h6"
@@ -234,13 +217,7 @@ export default function SimplePaper() {
             <DoneIcon />
           </IconButton>
 
-          <IconButton
-            aria-label="delete"
-            size="mediun"
-            sx={{ border: "2px solid black", ml: 1 }}
-          >
-            <BorderColorIcon />
-          </IconButton>
+          <ModalEditar />
 
           <Typography
             variant="h6"
