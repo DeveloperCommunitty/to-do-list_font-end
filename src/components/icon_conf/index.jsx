@@ -1,8 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import { Typography, Box, Paper, Button } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useNavigate } from 'react-router-dom';
 
 export default function SuccessMessage() {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -36,6 +39,7 @@ export default function SuccessMessage() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={() => navigate('/')}
           >
             Fechar
           </Button>

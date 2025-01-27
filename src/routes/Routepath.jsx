@@ -10,6 +10,7 @@ import Tarefa from "../pages/tarefas";
 
 export const RoutesPath = {
 
+    
     '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,
@@ -20,4 +21,5 @@ export const RoutesPath = {
     '/administracao': Administracao,
     "/tarefas": Tarefa,
 
+    
 }

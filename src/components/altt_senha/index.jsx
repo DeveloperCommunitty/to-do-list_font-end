@@ -4,8 +4,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function AlterarSenhaPaper() {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -14,56 +17,65 @@ export default function AlterarSenhaPaper() {
         '& > :not(style)': {
           m: 1,
           width: 400,
-          height: 375,
-          border:"2px solid",
-          borderRadius:"20px",
-          marginBottom:"5rem"
+          height: 430,
+          border: "2px solid",
+          borderRadius: "20px",
+          marginBottom: "5rem"
         },
       }}
     >
-      <Paper style={{padding:20}}>
-        <Typography variant="h5" style={{textAlign:"center"}}>
-            Alterar Senha
-      </Typography>
-      <Typography variant='h9' style={{display: 'flex', justifyContent: 'center'}}>
-            Digite a sua nova senha
-      </Typography>
-      <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
-      <Typography variant="h6" style={{marginBottom: '-1rem', marginRight: '16.5rem'}}>
+      <Paper style={{ padding: 20 }}>
+        <Typography variant="h5" style={{ textAlign: "center" }}>
+          Alterar Senha
+        </Typography>
+        <Typography variant='h9' style={{ display: 'flex', justifyContent: 'center',marginBottom:"3%" }}>
+          Digite a sua nova senha
+        </Typography>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Typography variant="h6" style={{ marginBottom: '-1rem', marginRight: '4.5rem',width:"80%" }}>
             Senha Atual:
-      </Typography>
-      <TextField
-          label="Digite aqui"
-          id="outlined-size-small"
-          size="small"
-          style={{width:"100%",marginTop:"1rem"}}
-        />
-      <Typography variant="h6" style={{marginBottom: '-1rem', marginRight: '16.5rem'}}>
+          </Typography>
+          <TextField
+            label="Digite aqui"
+            id="outlined-size-small"
+            size="small"
+            style={{ width: "100%", marginTop: "1rem" }}
+          />
+          <Typography variant="h6" style={{ marginBottom: '-1rem', marginRight: '4.5rem',width:"80%"}}>
             Nova Senha:
-      </Typography>
-      <TextField
-          label="Digite aqui"
-          id="outlined-size-small"
-          size="small"
-          style={{width:"100%",marginTop:"1rem"}}
-        />
-        <Typography variant="h6" style={{marginBottom: '-1rem', marginRight: '11rem'}}>
+          </Typography>
+          <TextField
+            label="Digite aqui"
+            id="outlined-size-small"
+            size="small"
+            style={{ width: "100%", marginTop: "1rem" }}
+          />
+          <Typography variant="h6" style={{ marginBottom: '-1rem', marginRight: '4rem',width:"80%" }}>
             Confirmar Nova Senha:
-      </Typography>
-        <TextField
-          label="Digite aqui"
-          id="outlined-size-small"
-          size="small"
-          style={{width:"100%",marginTop:"1rem"}}
-        />
-
-        <Button variant="text" size='large' style={{marginTop:"5%",borderRadius:"20px",width:"80%", marginBottom:"4%",border:"2px solid black",color:"black" }}>Confirmar</Button>
-
-      </div>
-
+          </Typography>
+          <TextField
+            label="Digite aqui"
+            id="outlined-size-small"
+            size="small"
+            style={{ width: "100%", marginTop: "1rem" }}
+          />
+          <Button
+            variant="text"
+            size='large'
+            style={{
+              marginTop: "3%",
+              borderRadius: "20px",
+              width: "80%",
+              marginBottom: "4%",
+              border: "2px solid black",
+              color: "black"
+            }}
+            onClick={() => navigate('/conf_senha')}
+          >
+            Confirmar
+          </Button>
+        </div>
       </Paper>
-
-      
     </Box>
   );
 }

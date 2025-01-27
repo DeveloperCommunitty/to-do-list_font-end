@@ -4,8 +4,11 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useNavigate } from 'react-router-dom';
 
 export default function SimplePaper() {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -46,7 +49,11 @@ export default function SimplePaper() {
             size="small"
             style={{ width: "100%", marginTop: "1rem" }}
           />
-          <Typography variant="h8" sx={{ color: "#0080FF", marginLeft: "49%" }}>
+          <Typography
+            variant="h8"
+            sx={{ color: "#0080FF", marginLeft: "49%", cursor: "pointer" }}
+            onClick={() => navigate('/recuperacao_senha')}
+          >
             Esqueceu sua senha?
           </Typography>
 
@@ -61,6 +68,7 @@ export default function SimplePaper() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={() => navigate('/tarefas')}
           >
             Login
           </Button>
@@ -74,6 +82,7 @@ export default function SimplePaper() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={() => navigate('/cadastro')}
           >
             Cadastrar
           </Button>

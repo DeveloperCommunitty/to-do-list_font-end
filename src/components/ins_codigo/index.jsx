@@ -4,8 +4,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
+import { useNavigate } from 'react-router-dom';
 export default function SimplePaper4() {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -40,7 +41,7 @@ export default function SimplePaper4() {
           size="small"
           style={{width:"100%",marginTop:"1rem"}}
         />
-        <Button variant="text" size='large' style={{marginTop:"5%",borderRadius:"20px",width:"80%", marginBottom:"4%",border:"2px solid black",color:"black" }}>Avançar</Button>
+        <Button onClick={() => navigate('/alt_senha')} variant="text" size='large' style={{marginTop:"5%",borderRadius:"20px",width:"80%", marginBottom:"4%",border:"2px solid black",color:"black" }}>Avançar</Button>
       </div>
       </Paper>
     </Box>
