@@ -7,6 +7,7 @@ import AlterarSenha from "../pages/alt_senha"
 import ConfirmaçãoSenha from "../pages/conf_senha"
 import Administracao from "../pages/administracao"
 import Tarefa from "../pages/tarefas";
+import Pasta from "../pages/Pastas"
 
 export const RoutesPath = {
 
@@ -20,6 +21,6 @@ export const RoutesPath = {
     'conf_senha': ConfirmaçãoSenha,
     '/administracao': Administracao,
     "/tarefas": Tarefa,
-
+    "pasta":Pasta ,
     
 }

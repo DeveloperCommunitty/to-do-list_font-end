@@ -14,8 +14,10 @@ import Pagination from "@mui/material/Pagination";
 import FolderIcon from "@mui/icons-material/Folder";
 import ModalTarefa from "../modal_tarefa";
 import ModalEditar from "../modal_editar";
+import { useNavigate } from 'react-router-dom';
 
 export default function SimplePaper() {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -254,6 +256,7 @@ export default function SimplePaper() {
               ml: "auto",
             }}
             startIcon={<FolderIcon />}
+            onClick={() => navigate('/pasta')}
           >
             Pasta de tarefas
           </Button>
