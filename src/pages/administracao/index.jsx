@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import ResponsiveAppBar from "../../components/navbar"
+import ResponsiveAppBar from "../../components/navbar_profile"
 import AdminPage from "../../components/admin"
 
 export default function Admin(){
