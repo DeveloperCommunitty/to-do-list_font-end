@@ -6,7 +6,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom';
 
-
 export default function SimplePaper() {
   const navigate = useNavigate();
 
@@ -17,8 +16,8 @@ export default function SimplePaper() {
         flexWrap: "wrap",
         "& > :not(style)": {
           m: 1,
-          width: 400,
-          height: 400,
+          width: { xs: "100%", sm: 400 },
+          height: { xs: "auto", sm: 400 },
           border: "2px solid",
           borderRadius: "20px",
           marginRight: "7rem",
@@ -52,7 +51,7 @@ export default function SimplePaper() {
           />
           <Typography
             variant="h8"
-            sx={{ color: "#0080FF", marginLeft: "49%", cursor: "pointer" }}
+            sx={{ color: "#0080FF", marginLeft: "auto", cursor: "pointer" }}
             onClick={() => navigate('/recuperacao_senha')}
           >
             Esqueceu sua senha?
