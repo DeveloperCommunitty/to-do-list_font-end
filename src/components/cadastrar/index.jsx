@@ -18,7 +18,7 @@ export default function SimplePaper3() {
   const handleRegister = async () => {
     try {
       await register(userData);
-      navigate('/login');
+      navigate('/');
     }
     catch (error) {
       console.log('registro deu errado', error);

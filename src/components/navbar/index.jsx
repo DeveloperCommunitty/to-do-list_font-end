@@ -11,12 +11,14 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Logo from "../../assets/Logo.png";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const pages = ['Início', 'Sair'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -27,6 +29,7 @@ function ResponsiveAppBar() {
     if (page === 'Início') {
       navigate('/tarefas');
     } else if (page === 'Sair') {
+      logout();
       navigate('/');
     }
   };

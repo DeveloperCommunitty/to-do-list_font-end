@@ -7,20 +7,23 @@ import Button from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
+
 export default function SimplePaper() {
   const navigate = useNavigate();
-  const {login} = useAuth();
-  const [credentials,setCredentials] = useState({
-    email: "",Password: "",
-  })
+  const { login } = useAuth();
+  const [credentials, setCredentials] = useState({
+    email: "", password: "",
+  });
+
   const handleLogin = async () => {
     try {
       await login(credentials);
       navigate("/tarefas");
-      } catch (error) {
-        console.log(error);
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
+
   return (
     <Box
       sx={{
