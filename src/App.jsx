@@ -1,11 +1,13 @@
 import { RouterManager } from "./routes/routerManage"
-
+import { AuthProvider } from "./context/AuthContext"
 function App() {
   
 
   return (
-
-    <RouterManager/>
+    <AuthProvider>
+      <RouterManager/>
+    </AuthProvider>
+    
     
   )
 }

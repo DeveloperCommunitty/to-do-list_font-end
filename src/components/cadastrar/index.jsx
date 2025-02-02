@@ -1,13 +1,28 @@
-import * as React from 'react';
+// import * as React from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react';
 
 export default function SimplePaper3() {
   const navigate = useNavigate();
+  const {register} = useAuth();
+  const {userData,setUserData} = useState({
+    name:'',email:"",password:"",confirmPassword:"",
+  })
+  const handleRegister = async () =>{
+    try {
+      await register(userData);
+      navigate('/login');
+    }
+    catch (error) {
+      console.log('registro deu errado',error);
+    }
+  }
 
   return (
     <Box
@@ -34,12 +49,16 @@ export default function SimplePaper3() {
             label="Nome"
             id="outlined-size-small"
             size="small"
+            value={userData.name}
+            onChange={(e) => setUserData({...userData,name:e.target.value})}
             style={{width:"100%",marginTop:"1rem"}}
           />
           <TextField
             label="Email"
             id="outlined-size-small"
             size="small"
+            value={userData.email}
+            onChange={(e) => setUserData({...userData, email:e.target.value})}
             style={{width:"100%",marginTop:"1rem"}}
           />
           <TextField
@@ -47,12 +66,16 @@ export default function SimplePaper3() {
             id="outlined-size-small"
             size="small"
             style={{width:"100%",marginTop:"1rem"}}
+            value={userData.password}
+            onChange={(e) => setUserData({...userData, password:e.target.value})}
           />
           <TextField
             label="Confirmar Senha"
             id="outlined-size-small"
             size="small"
             style={{width:"100%",marginTop:"1rem"}}
+            value={userData.confirmPassword}
+            onChange={(e) => setUserData({...userData, confirmPassword:e.target.value})}
           />
           <Typography
             variant='h8'
@@ -73,7 +96,7 @@ export default function SimplePaper3() {
               border:"2px solid black",
               color:"black"
             }}
-            onClick={() => navigate('/cadastro')}
+            onClick={handleRegister}
           >
             Cadastrar
           </Button>

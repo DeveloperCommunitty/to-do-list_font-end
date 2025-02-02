@@ -5,10 +5,22 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../../context/AuthContext";
+import { useState } from "react";
 export default function SimplePaper() {
   const navigate = useNavigate();
-
+  const {login} = useAuth();
+  const [credentials,setCredentials] = useState({
+    email: "",Password: "",
+  })
+  const handleLogin = async () => {
+    try {
+      await login(credentials);
+      navigate("/tarefas");
+      } catch (error) {
+        console.log(error);
+    }
+  }
   return (
     <Box
       sx={{
@@ -42,12 +54,16 @@ export default function SimplePaper() {
             id="outlined-size-small"
             size="small"
             style={{ width: "100%", marginTop: "1rem" }}
+            value={credentials.email}
+            onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
           />
           <TextField
             label="Senha"
             id="outlined-size-small"
             size="small"
             style={{ width: "100%", marginTop: "1rem" }}
+            value={credentials.password}
+            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
           />
           <Typography
             variant="h8"
@@ -68,7 +84,7 @@ export default function SimplePaper() {
               border: "2px solid black",
               color: "black",
             }}
-            onClick={() => navigate('/tarefas')}
+            onClick={handleLogin}
           >
             Login
           </Button>
