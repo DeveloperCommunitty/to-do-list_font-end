@@ -10,19 +10,20 @@ import { useState } from 'react';
 
 export default function SimplePaper3() {
   const navigate = useNavigate();
-  const {register} = useAuth();
-  const {userData,setUserData} = useState({
-    name:'',email:"",password:"",confirmPassword:"",
-  })
-  const handleRegister = async () =>{
+  const { register } = useAuth();
+  const [userData, setUserData] = useState({
+    name: '', email: '', password: '', confirmPassword: '',
+  });
+
+  const handleRegister = async () => {
     try {
       await register(userData);
       navigate('/login');
     }
     catch (error) {
-      console.log('registro deu errado',error);
+      console.log('registro deu errado', error);
     }
-  }
+  };
 
   return (
     <Box
@@ -33,53 +34,53 @@ export default function SimplePaper3() {
           m: 1,
           width: 400,
           height: 430,
-          border:"2px solid",
-          borderRadius:"20px",
-          marginBottom:"5rem"
+          border: "2px solid",
+          borderRadius: "20px",
+          marginBottom: "5rem"
         },
       }}
     >
-      <Paper style={{padding:20}}>
-        <Typography variant="h5" style={{textAlign:"center"}}>
-            Cadastro
+      <Paper style={{ padding: 20 }}>
+        <Typography variant="h5" style={{ textAlign: "center" }}>
+          Cadastro
         </Typography>
 
-        <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <TextField
             label="Nome"
             id="outlined-size-small"
             size="small"
             value={userData.name}
-            onChange={(e) => setUserData({...userData,name:e.target.value})}
-            style={{width:"100%",marginTop:"1rem"}}
+            onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+            style={{ width: "100%", marginTop: "1rem" }}
           />
           <TextField
             label="Email"
             id="outlined-size-small"
             size="small"
             value={userData.email}
-            onChange={(e) => setUserData({...userData, email:e.target.value})}
-            style={{width:"100%",marginTop:"1rem"}}
+            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+            style={{ width: "100%", marginTop: "1rem" }}
           />
           <TextField
             label="Senha"
             id="outlined-size-small"
             size="small"
-            style={{width:"100%",marginTop:"1rem"}}
+            style={{ width: "100%", marginTop: "1rem" }}
             value={userData.password}
-            onChange={(e) => setUserData({...userData, password:e.target.value})}
+            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
           />
           <TextField
             label="Confirmar Senha"
             id="outlined-size-small"
             size="small"
-            style={{width:"100%",marginTop:"1rem"}}
+            style={{ width: "100%", marginTop: "1rem" }}
             value={userData.confirmPassword}
-            onChange={(e) => setUserData({...userData, confirmPassword:e.target.value})}
+            onChange={(e) => setUserData({ ...userData, confirmPassword: e.target.value })}
           />
           <Typography
             variant='h8'
-            sx={{color:"#0080FF",marginLeft:"49%", cursor: "pointer"}}
+            sx={{ color: "#0080FF", marginLeft: "49%", cursor: "pointer" }}
             onClick={() => navigate('/recuperacao_senha')}
           >
             Esqueceu sua senha?
@@ -89,12 +90,12 @@ export default function SimplePaper3() {
             variant="text"
             size='large'
             style={{
-              marginTop:"5%",
-              borderRadius:"20px",
-              width:"80%",
-              marginBottom:"1%",
-              border:"2px solid black",
-              color:"black"
+              marginTop: "5%",
+              borderRadius: "20px",
+              width: "80%",
+              marginBottom: "1%",
+              border: "2px solid black",
+              color: "black"
             }}
             onClick={handleRegister}
           >
@@ -104,11 +105,11 @@ export default function SimplePaper3() {
             variant="text"
             size='large'
             style={{
-              borderRadius:"20px",
-              width:"80%",
-              marginBottom:"4%",
-              border:"2px solid black",
-              color:"black"
+              borderRadius: "20px",
+              width: "80%",
+              marginBottom: "4%",
+              border: "2px solid black",
+              color: "black"
             }}
             onClick={() => navigate('/')}
           >
