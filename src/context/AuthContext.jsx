@@ -49,6 +49,7 @@ export const AuthProvider = ({ children }) => {
     login: loginMutation.mutateAsync,
     register: registerMutation.mutateAsync,
     logout,
+    
   };
 
   return (

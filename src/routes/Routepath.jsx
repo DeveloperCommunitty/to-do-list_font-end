@@ -8,19 +8,29 @@ import ConfirmaçãoSenha from "../pages/conf_senha"
 import Administracao from "../pages/administracao"
 import Tarefa from "../pages/tarefas";
 import Pasta from "../pages/Pastas"
+import Unauthorized from "../pages/unauthorized"
+
+
+export const AdminRoutesPath = {
+
+    '/administracao': Administracao,
+}
+
+export const PrivateRoutesPath = {
+
+    'alt_senha': AlterarSenha,
+    'conf_senha': ConfirmaçãoSenha,
+    "/tarefas": Tarefa,
+    "pasta":Pasta,
+}
+
 
 export const RoutesPath = {
 
-    
     '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,
     '/insercao_codigo': InsercaoCodigo,
     '/ad_senha': AdSenha, 
-    'alt_senha': AlterarSenha,
-    'conf_senha': ConfirmaçãoSenha,
-    '/administracao': Administracao,
-    "/tarefas": Tarefa,
-    "pasta":Pasta ,
-    
+    '/unauthorized':Unauthorized,
 }

@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function SimplePaper() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "", password: "",
   });
@@ -18,7 +18,13 @@ export default function SimplePaper() {
   const handleLogin = async () => {
     try {
       await login(credentials);
-      navigate("/tarefas");
+      const role = user?.role || "USER"
+      if (role == 'USER') {
+         navigate("/tarefas");
+      }
+      else if (role == "ADMIN") {
+        navigate("/tarefas")
+      }
     } catch (error) {
       console.log(error);
     }

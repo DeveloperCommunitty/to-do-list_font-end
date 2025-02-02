@@ -1,15 +1,51 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useMemo } from 'react';
-import { RoutesPath } from './Routepath';
+import { RoutesPath, AdminRoutesPath, PrivateRoutesPath } from './Routepath';
 import { CssBaseline, GlobalStyles } from '@mui/material';
+import { PrivateRoute } from './Privaterouter';
 
 export const RouterManager = () => {
-  const route = useMemo(() => 
+
+  const Publicroute = useMemo(() =>
     Object.keys(RoutesPath).map((path) => {
-      const RouteComponent = RoutesPath[path];
+      const RouterComponent = RoutesPath[path];
       return (
-        <Route key={path} path={path} element={<RouteComponent />} />
-      );
+        <Route
+          key={path}
+          path={path}
+          element={<RouterComponent />}
+        />
+      )
+    }),
+    []
+  );
+
+  const Privateroutes = useMemo(() =>
+    Object.keys(PrivateRoutesPath).map((path) => {
+      const RouterComponent = PrivateRoutesPath[path];
+      return (
+        <Route
+          key={path}
+          element={<PrivateRoute requiredRole={["USER"]} />}>
+          <Route path={path}
+            element={<RouterComponent />} />
+        </Route>
+      )
+    }),
+    []
+  );
+
+  const Adminroutes = useMemo(() =>
+    Object.keys(AdminRoutesPath).map((path) => {
+      const RouterComponent = AdminRoutesPath[path];
+      return (
+        <Route
+          key={path}
+          element={<PrivateRoute requiredRole={["ADMIN"]} />}>
+          <Route path={path}
+            element={<RouterComponent />} />
+        </Route>
+      )
     }),
     []
   );
@@ -17,10 +53,12 @@ export const RouterManager = () => {
   return (
     <>
       <CssBaseline />
-      <GlobalStyles tyles={{ body: { margin: 0, padding: 0 }, htsml: { margin: 0, padding: 0 } }} />
+      <GlobalStyles styles={{ body: { margin: 0, padding: 0 }, html: { margin: 0, padding: 0 } }} />
       <BrowserRouter>
         <Routes>
-          {route}
+          {Publicroute}
+          {Privateroutes}
+          {Adminroutes}
         </Routes>
       </BrowserRouter>
     </>
