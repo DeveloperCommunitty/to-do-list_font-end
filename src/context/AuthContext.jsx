@@ -15,9 +15,10 @@ export const AuthProvider = ({ children }) => {
       return response.data;
     },
     onSuccess: (data) => {
+      console.log('Dados recebidos na onSuccess:', data);
       localStorage.setItem('token', data.access_token);
-      localStorage.setItem('role', data.user.role);
       queryClient.setQueryData(['user'], data.user);
+      console.log('Token salvo no localStorage:', data.access_token);
     },
     onError: (error) => {
       console.error('Login falhou:', error);
@@ -39,14 +40,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('role');
     queryClient.setQueryData(['user'], null);
-    console.log('Usuário deslogado');
   };
 
   const value = {
     user: queryClient.getQueryData(['user']),
-    role: localStorage.getItem('role'),
     signed: !!localStorage.getItem('token'),
     login: loginMutation.mutateAsync,
     register: registerMutation.mutateAsync,
