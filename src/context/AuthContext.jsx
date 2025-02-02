@@ -4,20 +4,11 @@ import api from '../server/api';
 
 const AuthContext = createContext({});
 
-interface Credentials {
-    username: string;
-    password: string;
-}
-
-interface LoginResponse {
-    token: string;
-    user: any;
-}
 
 export const AuthProvider = ({ children }) => {
     const queryClient = useQueryClient();
 
-    const loginMutation = useMutation<LoginResponse, Error, Credentials>(
+    const loginMutation = useMutation(
         async (credentials: Credentials) => {
             const response = await api.post('/login', credentials);
             return response.data;
