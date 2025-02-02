@@ -5,11 +5,12 @@ import api from '../server/api';
 const AuthContext = createContext({});
 
 
+
 export const AuthProvider = ({ children }) => {
     const queryClient = useQueryClient();
 
     const loginMutation = useMutation(
-        async (credentials: Credentials) => {
+        async (credentials) => {
             const response = await api.post('/login', credentials);
             return response.data;
         },
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     );
 
     const registerMutation = useMutation(
-        async (userdata: any) => {
+        async (userdata) => {
             const response = await api.post('/register', userdata);
             return response.data;
         },
