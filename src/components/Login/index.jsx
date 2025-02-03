@@ -18,12 +18,12 @@ export default function SimplePaper() {
   const handleLogin = async () => {
     try {
       await login(credentials);
-      const role = user?.role || "USER"
+      const role = user.role
       if (role == 'USER') {
          navigate("/tarefas");
       }
       else if (role == "ADMIN") {
-        navigate("/tarefas")
+        navigate("/administracao")
       }
     } catch (error) {
       console.log(error);

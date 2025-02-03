@@ -13,7 +13,7 @@ import Unauthorized from "../pages/unauthorized"
 
 export const AdminRoutesPath = {
 
-    '/administracao': Administracao,
+    
 }
 
 export const PrivateRoutesPath = {
@@ -26,7 +26,7 @@ export const PrivateRoutesPath = {
 
 
 export const RoutesPath = {
-
+    '/administracao': Administracao,
     '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,
