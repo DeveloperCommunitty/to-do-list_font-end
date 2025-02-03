@@ -18,8 +18,7 @@ export const AdminRoutesPath = {
 
 export const PrivateRoutesPath = {
 
-    'alt_senha': AlterarSenha,
-    'conf_senha': ConfirmaçãoSenha,
+    
     "/tarefas": Tarefa,
     "pasta":Pasta,
 }
@@ -27,6 +26,8 @@ export const PrivateRoutesPath = {
 
 export const RoutesPath = {
 
+    'alt_senha': AlterarSenha,
+    'conf_senha': ConfirmaçãoSenha,
     '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,
