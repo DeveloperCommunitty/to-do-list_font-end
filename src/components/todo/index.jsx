@@ -14,15 +14,58 @@ import ModalTarefa from "../modal_tarefa";
 import ModalEditar from "../modal_editar";
 import { useNavigate } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
-
-const tasks = [
-  { id: 1, title: "Lavar a Louça", date: "20/12/2020" },
-  { id: 2, title: "Limpar a casa", date: "23/12/2023" },
-  { id: 3, title: "Ajeitar as malas", date: "25/12/2025" },
-];
+import React, { useState } from "react";
+import { useDeleteTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation } from "../../server/api";
 
 export default function SimplePaper() {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [status, setStatus] = useState(false);
+  const [filterCompleted, setFilterCompleted] = useState(false); // Estado para controlar o filtro
+
+  const { data, isLoading, isError, error } = useGetTasksQuery({
+    page: currentPage,
+  });
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const updateTaskStatus = useUpdateTaskStatusMutation();
+
+  const handleDoneTask = async (taskId) => {
+    const statusNow = !status;
+    await updateTaskStatus.mutateAsync({ id: taskId, status: statusNow });
+    setStatus(statusNow);
+  };
+
+  const deleteTask = useDeleteTaskMutation();
+
+  const handleDeleteTask = async (taskId) => {
+    await deleteTask.mutateAsync({ id: taskId });
+  };
+
+  // Função para alternar o filtro de tarefas completadas
+  const handleFilterCompleteds = () => {
+    setFilterCompleted(!filterCompleted);
+  };
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (isError) {
+    return <div>Erro ao carregar tarefas: {error.message}</div>;
+  }
+
+  const tasks = data?.data || [];
+  const totalPages = data?.totalPage || 1;
+
+  // Filtrar tarefas com base no status (completadas ou não)
+  const filteredTasks = filterCompleted
+    ? tasks.filter((task) => task.done === true) // Filtra tarefas completadas
+    : tasks; // Mostra todas as tarefas
+
   return (
     <Box
       sx={{
@@ -55,18 +98,12 @@ export default function SimplePaper() {
         >
           <ModalTarefa />
 
+          {/* Botão para filtrar tarefas completadas */}
           <IconButton
-            aria-label="delete"
+            aria-label="done"
             size="large"
             sx={{ border: "3px solid black", mr: 1 }}
-          >
-            <DeleteIcon />
-          </IconButton>
-
-          <IconButton
-            aria-label="delete"
-            size="large"
-            sx={{ border: "3px solid black", mr: 1 }}
+            onClick={handleFilterCompleteds}
           >
             <DoneIcon />
           </IconButton>
@@ -103,7 +140,7 @@ export default function SimplePaper() {
         </Stack>
 
         <Grid container spacing={2}>
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <Grid item xs={12} key={task.id}>
               <Stack
                 direction="row"
@@ -114,6 +151,7 @@ export default function SimplePaper() {
                   border: "3px solid black",
                   borderRadius: "20px",
                   marginBottom: "5px",
+                  cursor: "pointer",
                 }}
               >
                 <Typography
@@ -129,14 +167,24 @@ export default function SimplePaper() {
                 </Typography>
 
                 <IconButton
-                  aria-label="delete"
+                  aria-label="done"
                   size="mediun"
                   sx={{ border: "2px solid black", ml: "auto" }}
+                  onClick={() => handleDoneTask(task.id)}
                 >
                   <DoneIcon />
                 </IconButton>
 
-                <ModalEditar />
+                <ModalEditar taskId={task.id} />
+
+                <IconButton
+                  aria-label="delete"
+                  size="mediun"
+                  sx={{ border: "2px solid black", ml: 1 }}
+                  onClick={() => handleDeleteTask(task.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
 
                 <Typography
                   variant="h6"
@@ -148,7 +196,7 @@ export default function SimplePaper() {
                   sx={{ margin: "10px" }}
                   color="gray"
                 >
-                  {task.date}
+                  {task.createdAt.split("T")[0]}
                 </Typography>
               </Stack>
             </Grid>
@@ -165,7 +213,12 @@ export default function SimplePaper() {
             marginTop: "10px",
           }}
         >
-          <Pagination sx={{ ml: "auto" }} count={10} />
+          <Pagination
+            sx={{ ml: "auto" }}
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
           <Button
             variant="outlined"
             color="black"

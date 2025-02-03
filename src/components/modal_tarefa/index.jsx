@@ -1,6 +1,5 @@
 import * as React from "react";
 import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import { IconButton } from "@mui/joy";
@@ -10,10 +9,30 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
-import TextField from "@mui/material/TextField";
+import { useCreateTaskMutation } from "../../server/api"; // Importe a mutação
+import { useNavigate } from "react-router-dom";
 
 export default function ModalTarefa() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  const createTaskMutation = useCreateTaskMutation();
+
+  const handleAddTask = async () => {
+    try {
+      await createTaskMutation.mutateAsync({ title, description });
+
+      setOpen(false);
+
+      setTitle("");
+      setDescription("");
+    } catch (error) {
+      console.error("Erro ao criar tarefa:", error);
+    }
+  };
+
   return (
     <React.Fragment>
       <IconButton
@@ -68,12 +87,22 @@ export default function ModalTarefa() {
           <Stack spacing={2}>
             <FormControl>
               <FormLabel>Nome da Tarefa</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input
+                required
+                placeholder="Digite aqui"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </FormControl>
 
             <FormControl>
               <FormLabel>Descrição da Tarefa</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input
+                required
+                placeholder="Digite aqui"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </FormControl>
           </Stack>
           <Button
@@ -84,6 +113,7 @@ export default function ModalTarefa() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={handleAddTask} // Adiciona o evento de clique para criar a tarefa
           >
             Adicionar
           </Button>
