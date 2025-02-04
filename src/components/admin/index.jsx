@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -11,20 +11,40 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Checkbox,
   Pagination,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SearchIcon from '@mui/icons-material/Search';
-import { getUserQuery, useDeleteUserMutation } from '../../server/api';
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
+import { deleteUser, getUserQuery } from "../../server/api";
 
 export default function AdminPage() {
-  const { data: users, isLoading, isError } = getUserQuery();
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState([]);
+  const pageSize = 5;
 
-  const deleteUserMutation = useDeleteUserMutation();
+  const { data, isLoading, isError } = getUserQuery(page, pageSize);
+  
+  useEffect(() => {
+    console.log(data?.totalPage)
+    if (data && data.data) {
+      setUsers(data.data);
+    }
+  }, [data]);
 
-  const handleDeleteUser = async(userId) => {
-    await deleteUserMutation.mutate(userId);
+  const filteredUsers = users
+    ? users.filter((user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : [];
+
+  const handleDeleteUser = async (userId) => {
+    await deleteUser(userId);
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  };
+
+  const handlePageChange = (_, newPage) => {
+    setPage(newPage);
   };
 
   if (isLoading) {
@@ -38,16 +58,16 @@ export default function AdminPage() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
+        display: "flex",
+        flexWrap: "wrap",
+        "& > :not(style)": {
           m: 1,
           width: 800,
           height: 610,
-          border: '2px solid',
-          borderRadius: '20px',
-          alignItems: 'center',
-          padding: '50px',
+          border: "2px solid",
+          borderRadius: "20px",
+          alignItems: "center",
+          padding: "50px",
         },
       }}
     >
@@ -55,10 +75,12 @@ export default function AdminPage() {
         <Typography variant="h4" align="center" gutterBottom>
           Lista de Usuários
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
           <TextField
             variant="outlined"
             placeholder="Pesquisar..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             size="small"
             fullWidth
             InputProps={{
@@ -69,9 +91,6 @@ export default function AdminPage() {
               ),
             }}
           />
-          <IconButton sx={{ marginLeft: 2 }}>
-            <DeleteIcon />
-          </IconButton>
         </Box>
         <TableContainer>
           <Table>
@@ -84,23 +103,36 @@ export default function AdminPage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-                  <TableCell align="center">
-                    <IconButton onClick={() => handleDeleteUser(user.id)}>
-                      <DeleteIcon />
-                    </IconButton>
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell align="center">
+                      <IconButton onClick={() => handleDeleteUser(user.id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    Nenhum usuário encontrado
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
-          <Pagination count={68} shape="rounded" />
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+          <Pagination
+            count={data?.totalPage}
+            page={page}
+            onChange={handlePageChange}
+            shape="rounded"
+          />
         </Box>
       </Paper>
     </Box>
