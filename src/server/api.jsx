@@ -2,6 +2,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const api = axios.create({
+
   baseURL: "https://to-do-list-back-end-tgtt.onrender.com",
 });
 
@@ -61,28 +62,37 @@ const updateTaskStatus = async (taskData) => {
   return response.data;
 };
 
-const getTasks = async () => {
-  const response = await api.get('/tarefas');
-  return response.data;
-};
+const deleteTask = async (task) => {
+    const { id } = task
+    const response = await api.delete(`/tarefa/${id}`);
+    return response.data;
+}
+
+const getTasks = async (taskParams) => {
+    const { page } = taskParams;
+    const response = await api.get(`/tarefa/tarefas?page=${page}&pageSize=5`);
+    return response.data;
+  };
 
 export const useCreateTaskMutation = () => {
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
   
-  return useMutation(createTask, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['tasks']);
-    },
-    onError: (error) => {
-      console.error('Criação de tarefa falhou:', error);
-    }
-  });
-};
+    return useMutation({
+      mutationFn: createTask, 
+      onSuccess: () => {
+        queryClient.invalidateQueries(['tasks']);
+      },
+      onError: (error) => {
+        console.error('Erro ao criar tarefa:', error);
+      },
+    });
+  };
 
 export const useEditTaskMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(editTask, {
+  return useMutation({
+    mutationFn: editTask,
     onSuccess: () => {
       queryClient.invalidateQueries(['tasks']);
     },
@@ -95,7 +105,8 @@ export const useEditTaskMutation = () => {
 export const useUpdateTaskStatusMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(updateTaskStatus, {
+  return useMutation({
+    mutationFn: updateTaskStatus,
     onSuccess: () => {
       queryClient.invalidateQueries(['tasks']);
     },
@@ -105,8 +116,26 @@ export const useUpdateTaskStatusMutation = () => {
   });
 };
 
-export const useGetTasksQuery = () => {
-  return useQuery(['tasks'], getTasks);
-};
+export const useDeleteTaskMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: deleteTask,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['tasks']);
+          },
+          onError: (error) => {
+            console.error('Remoção de tarefa falhou:', error);
+          }
+    })
+
+}
+
+export const useGetTasksQuery = (taskParams) => {
+    return useQuery({
+      queryKey: ['tasks', taskParams],
+      queryFn: () => getTasks(taskParams),
+    });
+  };
 
 export default api;
