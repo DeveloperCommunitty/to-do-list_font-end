@@ -1,9 +1,12 @@
-// import * as React from 'react';
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
@@ -12,22 +15,35 @@ export default function SimplePaper() {
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [credentials, setCredentials] = useState({
-    email: "", password: "",
+    email: "",
+    password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLogin = async () => {
+    if (!credentials.email || !credentials.password) {
+      setError("Por favor, preencha todos os campos.");
+      return;
+    }
+
     try {
+      setError(null);
       await login(credentials);
-      const role = user.role
-      if (role == 'USER') {
-         navigate("/tarefas");
-      }
-      else if (role == "ADMIN") {
-        navigate("/administracao")
+      const role = user.role;
+      if (role === 'USER') {
+        navigate("/tarefas");
+      } else if (role === "ADMIN") {
+        navigate("/administracao");
       }
     } catch (error) {
       console.log(error);
+      setError("Usuário não encontrado ou credenciais inválidas.");
     }
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -60,19 +76,34 @@ export default function SimplePaper() {
         >
           <TextField
             label="Email"
-            id="outlined-size-small"
+            id="email"
             size="small"
             style={{ width: "100%", marginTop: "1rem" }}
             value={credentials.email}
             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+            required
           />
           <TextField
             label="Senha"
-            id="outlined-size-small"
+            id="password"
+            type={showPassword ? "text" : "password"}
             size="small"
             style={{ width: "100%", marginTop: "1rem" }}
             value={credentials.password}
             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+            required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Typography
             variant="h8"
@@ -81,6 +112,12 @@ export default function SimplePaper() {
           >
             Esqueceu sua senha?
           </Typography>
+
+          {error && (
+            <Typography color="error" style={{ marginTop: "1rem" }}>
+              {error}
+            </Typography>
+          )}
 
           <Button
             variant="text"
