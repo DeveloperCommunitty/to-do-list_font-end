@@ -26,7 +26,7 @@ export const RouterManager = () => {
       return (
         <Route
           key={path}
-          element={<PrivateRoute requiredRole={["USER"]} />}>
+          element={<PrivateRoute requiredRole={["USER"]} />} >
           <Route path={path}
             element={<RouterComponent />} />
         </Route>
@@ -41,7 +41,7 @@ export const RouterManager = () => {
       return (
         <Route
           key={path}
-          element={<PrivateRoute requiredRole={["ADMIN"]} />}>
+          element={<PrivateRoute requiredRole={["ADMIN"]} />} >
           <Route path={path}
             element={<RouterComponent />} />
         </Route>

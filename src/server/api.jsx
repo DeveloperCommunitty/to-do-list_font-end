@@ -13,6 +13,36 @@ api.interceptors.request.use(config => {
   return config;
 });
 
+const getUsers = async (page, pageSize) => {
+  const response = await api.get(`/user?page=${page}&pageSize=${pageSize}`);
+  return response.data;
+}
+
+export const deleteUser = async (userId) => {
+  const response = await api.delete(`/user/${userId}`);
+  return response.data;
+}
+
+export const getUserQuery = (page, pageSize) => {
+  return useQuery({
+    queryKey: ['users', page, pageSize],  
+    queryFn: () => getUsers(page, pageSize) 
+  });
+}
+
+export const useDeleteUserMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['users']);
+    },
+    onError: (error) => {
+      console.error('Falha ao deletar usuário:', error);
+    }
+  });
+}
+
 const createTask = async (taskData) => {
   const response = await api.post('/tarefa', taskData);
   return response.data;
@@ -30,25 +60,31 @@ const updateTaskStatus = async (taskData) => {
   return response.data;
 };
 
-const getTasks = async () => {
-  const response = await api.get('/tarefas');
+const deleteTask = async (task) => {
+    const { id } = task;
+    const response = await api.delete(`/tarefa/${id}`);
+    return response.data;
+}
+
+const getTasks = async ({ page, pageSize = 5 }) => {
+  const response = await api.get(`/tarefa/tarefas?page=${page}&pageSize=${pageSize}`);
   return response.data;
 };
 
 const checkEmail = async (email) => {
-  const response = await api.post('/restore', {email});
+  const response = await api.post('/restore', { email });
   console.log(response);
   console.log(email);
   return response.data;
 };
 
 const checkCod = async (cod) => {
-  const response = await api.post("/restore/confirmed", {cod} );
+  const response = await api.post("/restore/confirmed", { cod });
   return response.data;
 }
 
 const updatePasswd = async (password) => {
-  const response = await api.patch("/restore/new-credentials", {password} );
+  const response = await api.patch("/restore/new-credentials", { password });
   return response.data;
 }
 
@@ -79,23 +115,23 @@ export const useUpdatePasswdMutation = () => {
   });
 };
 
+const queryClient = useQueryClient();
+
 export const useCreateTaskMutation = () => {
-  const queryClient = useQueryClient();
-  
-  return useMutation(createTask, {
+  return useMutation({
+    mutationFn: createTask, 
     onSuccess: () => {
       queryClient.invalidateQueries(['tasks']);
     },
     onError: (error) => {
-      console.error('Criação de tarefa falhou:', error);
-    }
+      console.error('Erro ao criar tarefa:', error);
+    },
   });
 };
 
 export const useEditTaskMutation = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation(editTask, {
+  return useMutation({
+    mutationFn: editTask,
     onSuccess: () => {
       queryClient.invalidateQueries(['tasks']);
     },
@@ -106,9 +142,8 @@ export const useEditTaskMutation = () => {
 };
 
 export const useUpdateTaskStatusMutation = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation(updateTaskStatus, {
+  return useMutation({
+    mutationFn: updateTaskStatus,
     onSuccess: () => {
       queryClient.invalidateQueries(['tasks']);
     },
@@ -118,8 +153,23 @@ export const useUpdateTaskStatusMutation = () => {
   });
 };
 
-export const useGetTasksQuery = () => {
-  return useQuery(['tasks'], getTasks);
+export const useDeleteTaskMutation = () => {
+  return useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks']);
+    },
+    onError: (error) => {
+      console.error('Remoção de tarefa falhou:', error);
+    }
+  });
+}
+
+export const useGetTasksQuery = (taskParams) => {
+  return useQuery({
+    queryKey: ['tasks', taskParams],
+    queryFn: () => getTasks(taskParams),
+  });
 };
 
 export default api;

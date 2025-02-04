@@ -18,14 +18,13 @@ export const AdminRoutesPath = {
 
 export const PrivateRoutesPath = {
 
-    
     "/tarefas": Tarefa,
     "pasta":Pasta,
 }
 
 
 export const RoutesPath = {
-
+  
     'alt_senha': AlterarSenha,
     'conf_senha': ConfirmaçãoSenha,
     '/':Login,
