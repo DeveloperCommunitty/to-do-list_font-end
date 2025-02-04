@@ -2,7 +2,8 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/",
+
+  baseURL: "https://to-do-list-back-end-tgtt.onrender.com",
 });
 
 api.interceptors.request.use(config => {
@@ -12,6 +13,36 @@ api.interceptors.request.use(config => {
   }
   return config;
 });
+
+const getUsers = async (page, pageSize) => {
+  const response = await api.get(`/user?page=${page}&pageSize=${pageSize}`);
+  return response.data;
+}
+
+export const deleteUser = async (userId) => {
+  const response = await api.delete(`/user/${userId}`);
+  return response.data;
+}
+
+export const getUserQuery = (page, pageSize) => {
+  return useQuery({
+    queryKey: ['users', page, pageSize],  
+    queryFn: () => getUsers(page, pageSize) 
+  });
+}
+
+// export const useDeleteUserMutation = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation(deleteUser, {
+//     onSuccess: () => {
+//       queryClient.invalidateQueries(['users']);
+//     },
+//     onError: (error) => {
+//       console.error('Falha ao deletar usuário:', error);
+//     }
+//   });
+// }
 
 
 const createTask = async (taskData) => {
