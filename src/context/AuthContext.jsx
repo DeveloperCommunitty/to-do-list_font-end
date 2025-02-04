@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     onSuccess: (data) => {
       console.log('Dados recebidos na onSuccess:', data);
       localStorage.setItem('token', data.access_token);
-      queryClient.setQueryData(['user'], data.user);
+      queryClient.setQueryData(['user'], (oldData) => data.user);
       console.log('Token salvo no localStorage:', data.access_token);
     },
     onError: (error) => {
