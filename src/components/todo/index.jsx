@@ -21,7 +21,8 @@ export default function SimplePaper() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [status, setStatus] = useState(false);
-  const [filterCompleted, setFilterCompleted] = useState(false); // Estado para controlar o filtro
+  const [filterCompleted, setFilterCompleted] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data, isLoading, isError, error } = useGetTasksQuery({
     page: currentPage,
@@ -45,9 +46,12 @@ export default function SimplePaper() {
     await deleteTask.mutateAsync({ id: taskId });
   };
 
-  // Função para alternar o filtro de tarefas completadas
   const handleFilterCompleteds = () => {
     setFilterCompleted(!filterCompleted);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   if (isLoading) {
@@ -61,10 +65,11 @@ export default function SimplePaper() {
   const tasks = data?.data || [];
   const totalPages = data?.totalPage || 1;
 
-  // Filtrar tarefas com base no status (completadas ou não)
-  const filteredTasks = filterCompleted
-    ? tasks.filter((task) => task.done === true) // Filtra tarefas completadas
-    : tasks; // Mostra todas as tarefas
+  const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()); 
+    const matchesFilter = filterCompleted ? task.done === true : true;
+    return matchesSearch && matchesFilter; 
+  });
 
   return (
     <Box
@@ -98,7 +103,6 @@ export default function SimplePaper() {
         >
           <ModalTarefa />
 
-          {/* Botão para filtrar tarefas completadas */}
           <IconButton
             aria-label="done"
             size="large"
@@ -129,6 +133,8 @@ export default function SimplePaper() {
             />
             <Input
               placeholder="Pesquisar"
+              value={searchTerm} 
+              onChange={handleSearchChange} 
               sx={{
                 "&:before": { borderBottom: "none" },
                 "&:after": { borderBottom: "none" },

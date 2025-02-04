@@ -99,6 +99,7 @@ export const useDeleteTaskMutation = () => {
     })
 
 }
+
 export const useGetTasksQuery = (taskParams) => {
     return useQuery({
       queryKey: ['tasks', taskParams],
