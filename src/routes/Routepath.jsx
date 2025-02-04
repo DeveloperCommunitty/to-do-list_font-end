@@ -13,20 +13,20 @@ import Unauthorized from "../pages/unauthorized"
 
 export const AdminRoutesPath = {
 
-    
+    '/administracao': Administracao,
 }
 
 export const PrivateRoutesPath = {
 
-    'alt_senha': AlterarSenha,
-    'conf_senha': ConfirmaçãoSenha,
     "/tarefas": Tarefa,
     "pasta":Pasta,
 }
 
 
 export const RoutesPath = {
-    '/administracao': Administracao,
+  
+    'alt_senha': AlterarSenha,
+    'conf_senha': ConfirmaçãoSenha,
     '/':Login,
     '/cadastro':Cadastro,
     '/recuperacao_senha': RecuperacaoSenha,

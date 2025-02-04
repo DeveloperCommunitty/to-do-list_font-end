@@ -5,9 +5,18 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useCheckEmailMutation } from '../../server/api';
+import { useState } from 'react';
 
 export default function SimplePaper() {
   const navigate = useNavigate();
+  const [email,setEmail]= useState("")
+  const checkEmailMutation = useCheckEmailMutation();
+
+  const  handleEmail = async ()=>{
+    await checkEmailMutation.mutateAsync(email)
+    navigate("/insercao_codigo")
+  }
 
   return (
     <Box
@@ -33,7 +42,8 @@ export default function SimplePaper() {
           Email:
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <TextField
+          <TextField 
+            onChange={(e) => setEmail(e.target.value)}
             label="Digite aqui"
             id="outlined-size-small"
             size="small"
@@ -50,7 +60,7 @@ export default function SimplePaper() {
               border: "2px solid black",
               color: "black"
             }}
-            onClick={() => navigate('/insercao_codigo')}
+            onClick={handleEmail}
           >
             Avançar
           </Button>
