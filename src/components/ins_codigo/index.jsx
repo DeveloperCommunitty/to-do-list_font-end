@@ -5,8 +5,19 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useCheckCodMutation } from '../../server/api';
+import { useState } from 'react';
+
 export default function SimplePaper4() {
   const navigate = useNavigate();
+  const [cod,setCod]= useState("")
+  const checkCodMutation=useCheckCodMutation();
+
+  const handleCod=async()=>{
+    await checkCodMutation.mutateAsync(cod)
+    navigate("/alt_senha")
+  }
+
   return (
     <Box
       sx={{
@@ -36,12 +47,17 @@ export default function SimplePaper4() {
       <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
         
       <TextField
+          onChange={(e)=>setCod(e.target.value)}
           label="Digite o código aqui:"
           id="outlined-size-small"
           size="small"
           style={{width:"100%",marginTop:"1rem"}}
         />
-        <Button onClick={() => navigate('/alt_senha')} variant="text" size='large' style={{marginTop:"5%",borderRadius:"20px",width:"80%", marginBottom:"4%",border:"2px solid black",color:"black" }}>Avançar</Button>
+        <Button onClick={handleCod} 
+        variant="text" size='large' 
+        style={{marginTop:"5%",borderRadius:"20px",width:"80%", marginBottom:"4%",border:"2px solid black",color:"black" }}>
+          Avançar
+          </Button>
       </div>
       </Paper>
     </Box>

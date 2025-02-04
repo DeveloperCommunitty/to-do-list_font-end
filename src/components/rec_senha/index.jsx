@@ -11,10 +11,10 @@ import { useState } from 'react';
 export default function SimplePaper() {
   const navigate = useNavigate();
   const [email,setEmail]= useState("")
-  
+  const checkEmailMutation = useCheckEmailMutation();
 
-  const  handleEmail =async (email)=>{
-    await useCheckEmailMutation(email)
+  const  handleEmail = async ()=>{
+    await checkEmailMutation.mutateAsync(email)
     navigate("/insercao_codigo")
   }
 
@@ -43,7 +43,7 @@ export default function SimplePaper() {
         </Typography>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <TextField 
-            onChange={(e) => setEmail({email: e.target.value })}
+            onChange={(e) => setEmail(e.target.value)}
             label="Digite aqui"
             id="outlined-size-small"
             size="small"

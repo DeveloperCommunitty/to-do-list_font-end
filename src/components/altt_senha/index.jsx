@@ -5,9 +5,19 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useUpdatePasswdMutation } from '../../server/api';
 
 export default function AlterarSenhaPaper() {
   const navigate = useNavigate();
+  const [passwd,setPasswd]= useState("")
+
+  const updatePasswordMutation=useUpdatePasswdMutation();
+
+  const handleUpdatePassword=async()=>{
+    await updatePasswordMutation.mutateAsync(passwd)
+    navigate("conf_senha");
+  }
 
   return (
     <Box
@@ -36,6 +46,7 @@ export default function AlterarSenhaPaper() {
             Senha Atual:
           </Typography>
           <TextField
+          onChange={(e)=>setPasswd(e.target.value)}
             label="Digite aqui"
             id="outlined-size-small"
             size="small"
@@ -70,7 +81,7 @@ export default function AlterarSenhaPaper() {
               border: "2px solid black",
               color: "black"
             }}
-            onClick={() => navigate('/conf_senha')}
+            onClick={handleUpdatePassword}
           >
             Confirmar
           </Button>
