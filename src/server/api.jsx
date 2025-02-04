@@ -75,6 +75,32 @@ const getTasks = async ({ page, pageSize = 5 }) => {
   return response.data;
 };
 
+const createPlaylist = async (playlistData) => {
+  const response = await api.post('/playlist', playlistData);
+  return response.data;
+};
+
+const editPlaylist = async (playlistData) => {
+  const { id, ...rest } = playlistData;
+  const response = await api.patch(`/playlist/${id}`, rest);
+  return response.data;
+};
+
+const deletePlaylist = async (playlistId) => {
+  const response = await api.delete(`/playlist/${playlistId}`);
+  return response.data;
+};
+
+const getPlaylists = async ({ page, pageSize = 5 }) => {
+  const response = await api.get(`/playlist?page=${page}&pageSize=${pageSize}`);
+  return response.data;
+};
+
+const getPlaylistById = async (playlistId) => {
+  const response = await api.get(`/playlist/${playlistId}`);
+  return response.data;
+};
+
 
 export const useGetTasksQuery = (taskParams) => {
   return useQuery({
@@ -182,5 +208,63 @@ export const useUpdatePasswdMutation = () => {
     },
   });
 };
+
+// Hooks para Playlists (Novos hooks)
+export const useGetPlaylistsQuery = (playlistParams) => {
+  return useQuery({
+    queryKey: ['playlists', playlistParams],
+    queryFn: () => getPlaylists(playlistParams),
+  });
+};
+
+export const useGetPlaylistByIdQuery = (playlistId) => {
+  return useQuery({
+    queryKey: ['playlist', playlistId],
+    queryFn: () => getPlaylistById(playlistId),
+  });
+};
+
+export const useCreatePlaylistMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createPlaylist,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['playlists']);
+    },
+    onError: (error) => {
+      console.error('Erro ao criar playlist:', error);
+    },
+  });
+};
+
+export const useEditPlaylistMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: editPlaylist,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['playlists']);
+    },
+    onError: (error) => {
+      console.error('Edição de playlist falhou:', error);
+    },
+  });
+};
+
+export const useDeletePlaylistMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deletePlaylist,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['playlists']);
+    },
+    onError: (error) => {
+      console.error('Remoção de playlist falhou:', error);
+    },
+  });
+};
+
 
 export default api;

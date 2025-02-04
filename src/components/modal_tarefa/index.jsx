@@ -9,15 +9,13 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
-import { useCreateTaskMutation } from "../../server/api"; // Importe a mutação
-import { useNavigate } from "react-router-dom";
+import { useCreateTaskMutation } from "../../server/api";
+
 
 export default function ModalTarefa() {
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-
   const createTaskMutation = useCreateTaskMutation();
 
   const handleAddTask = async () => {
@@ -113,7 +111,7 @@ export default function ModalTarefa() {
               border: "2px solid black",
               color: "black",
             }}
-            onClick={handleAddTask} // Adiciona o evento de clique para criar a tarefa
+            onClick={handleAddTask}
           >
             Adicionar
           </Button>

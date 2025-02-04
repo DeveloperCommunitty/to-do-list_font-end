@@ -9,9 +9,28 @@ import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
 import FolderIcon from "@mui/icons-material/Folder";
+import { useCreatePlaylistMutation } from "../../server/api";
 
 export default function ModalPasta() {
+  const [name, setName] = React.useState("");
+    const [description, setDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
+
+  const createPlaylist = useCreatePlaylistMutation()
+
+  const handleAddPlaylist = async () => {
+    try {
+      await createPlaylist.mutateAsync({ name , description });
+
+      setOpen(false);
+
+      setName("");
+      setDescription("");
+    } catch (error) {
+      console.error("Erro ao criar Playlist:", error);
+    }
+  };
+
   return (
     <React.Fragment>
       <IconButton
@@ -66,12 +85,22 @@ export default function ModalPasta() {
           <Stack spacing={2}>
             <FormControl>
               <FormLabel>Nome da Pasta</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input 
+              required
+              placeholder="Digite aqui"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             </FormControl>
 
             <FormControl>
               <FormLabel>Descrição da Pasta</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input
+              required
+              placeholder="Digite aqui"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              />
             </FormControl>
           </Stack>
           <Button
@@ -82,6 +111,7 @@ export default function ModalPasta() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={handleAddPlaylist}
           >
             Adicionar
           </Button>

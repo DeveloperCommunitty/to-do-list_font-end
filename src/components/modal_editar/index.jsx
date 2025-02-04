@@ -1,6 +1,5 @@
 import * as React from "react";
 import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import { IconButton } from "@mui/joy";
@@ -12,6 +11,7 @@ import Button from "@mui/joy/Button";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useEditTaskMutation } from "../../server/api";
 
+// eslint-disable-next-line react/prop-types
 export default function ModalEditar({ taskId }) {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
