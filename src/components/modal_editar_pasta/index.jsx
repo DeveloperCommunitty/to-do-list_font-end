@@ -9,9 +9,23 @@ import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { useEditPlaylistMutation } from "../../server/api";
 
-export default function ModalEditarPasta() {
+// eslint-disable-next-line react/prop-types
+export default function ModalEditarPasta({playlistId}) {
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  
+    const editPlaylistMutation = useEditPlaylistMutation();
+  
+    const handleEditPlaylist = async () => {
+        await editPlaylistMutation.mutateAsync({ id: playlistId, name, description });
+  
+        setOpen(false)
+        setName("");
+        setDescription("");
+    };
   return (
     <React.Fragment>
       <IconButton
@@ -66,12 +80,17 @@ export default function ModalEditarPasta() {
           <Stack spacing={2}>
             <FormControl>
               <FormLabel>Nome da Pasta</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input required placeholder="Digite aqui"
+              value={name}
+              onChange={(e) => setName(e.target.value)} />
             </FormControl>
 
             <FormControl>
               <FormLabel>Descrição da Pasta</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input required placeholder="Digite aqui"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+               />
             </FormControl>
           </Stack>
           <Button
@@ -82,6 +101,7 @@ export default function ModalEditarPasta() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={handleEditPlaylist}
           >
             Adicionar
           </Button>

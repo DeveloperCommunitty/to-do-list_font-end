@@ -1,4 +1,3 @@
-// import * as React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
@@ -14,9 +13,47 @@ import { useNavigate } from 'react-router-dom';
 import ModalPasta from "../modal_pasta";
 import ModalEditarPasta from "../modal_editar_pasta";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import  { useState } from "react";
+import { useGetPlaylistsQuery, useDeletePlaylistMutation } from "../../server/api";
 
 export default function PaperPasta() {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { data, isLoading, isError, error } = useGetPlaylistsQuery({
+    page: currentPage,
+  });
+
+  const deletePlaylist = useDeletePlaylistMutation();
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const handleDeletePlaylist = async (playlistId) => {
+    await deletePlaylist.mutateAsync(playlistId);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  if (isLoading) {
+    return <div>Carregando playlists...</div>;
+  }
+
+  if (isError) {
+    return <div>Erro ao carregar playlists: {error.message}</div>;
+  }
+
+  const playlists = data?.data || [];
+  const totalPages = data?.totalPage || 1;
+
+  const filteredPlaylists = playlists.filter((playlist) =>
+    playlist.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Box
       sx={{
@@ -52,14 +89,6 @@ export default function PaperPasta() {
         >
           <ModalPasta />
 
-          <IconButton
-            aria-label="delete"
-            size="large"
-            sx={{ border: "3px solid black", mr: 1 }}
-          >
-            <DeleteIcon />
-          </IconButton>
-
           <Box
             sx={{
               display: "flex",
@@ -81,6 +110,8 @@ export default function PaperPasta() {
             />
             <Input
               placeholder="Pesquisar"
+              value={searchTerm}
+              onChange={handleSearchChange}
               sx={{
                 "&:before": { borderBottom: "none" },
                 "&:after": { borderBottom: "none" },
@@ -90,12 +121,11 @@ export default function PaperPasta() {
             />
           </Box>
         </Stack>
-        
-        {[{ color: "black", label: "A fazeres domesticos", date: "20/12/2020" },
-          { color: "red", label: "Atividades de casa", date: "22/12/2022" },
-          { color: "green", label: "Atividades de trabalho", date: "25/12/2025" }].map((item, index) => (
+
+        {/* Lista de playlists */}
+        {filteredPlaylists.map((playlist) => (
           <Stack
-            key={index}
+            key={playlist.id}
             direction="row"
             sx={{
               width: "100%",
@@ -107,24 +137,35 @@ export default function PaperPasta() {
               padding: "10px",
             }}
           >
-            <FolderIcon sx={{ color: item.color, fontSize: 30, marginRight: 1 }} />
+            <FolderIcon sx={{ fontSize: 30, marginRight: 1 }} />
             <Typography variant="h6" sx={{ fontWeight: "bold", color: "gray", flexGrow: 1 }}>
-              {item.label}
+              {playlist.name}
             </Typography>
             <Stack direction="row" sx={{ alignItems: "center" }}>
-              <ModalEditarPasta />
-              <Typography variant="h6" sx={{ fontWeight: "bold", color: "gray", marginLeft: 2 }}>
-                {item.date}
-              </Typography>
+              <ModalEditarPasta playlistId={playlist.id} />
+
+              <IconButton
+                aria-label="delete"
+                size="medium"
+                sx={{ border: "2px solid black", ml: 1 }}
+                onClick={() => handleDeletePlaylist(playlist.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
             </Stack>
           </Stack>
         ))}
-        
+
         <Stack
           direction="row"
           sx={{ justifyContent: "center", alignItems: "center", width: "100%", display: "flex", marginTop: "10px" }}
         >
-          <Pagination sx={{ ml: "auto" }} count={10} />
+          <Pagination
+            sx={{ ml: "auto" }}
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
           <Button
             variant="outlined"
             color="black"

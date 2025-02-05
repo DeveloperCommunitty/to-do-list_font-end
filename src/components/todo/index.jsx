@@ -14,7 +14,7 @@ import ModalTarefa from "../modal_tarefa";
 import ModalEditar from "../modal_editar";
 import { useNavigate } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useDeleteTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation } from "../../server/api";
 
 export default function SimplePaper() {
