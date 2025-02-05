@@ -4,7 +4,7 @@ import AdminPage from "../../components/admin"
 
 export default function Admin(){
     return (
-        <Box sx={{}}>
+        <Box>
             <ResponsiveAppBar/>
             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh', flexDirection: 'column'}}>
                 <AdminPage/>
