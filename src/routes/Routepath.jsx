@@ -9,6 +9,7 @@ import Administracao from "../pages/administracao"
 import Tarefa from "../pages/tarefas";
 import Pasta from "../pages/Pastas"
 import Unauthorized from "../pages/unauthorized"
+import Pasta_Tarefa from "../pages/pasta_tarefa"
 
 
 export const AdminRoutesPath = {
@@ -20,6 +21,7 @@ export const PrivateRoutesPath = {
 
     "/tarefas": Tarefa,
     "pasta":Pasta,
+    "pasta_tarefa":Pasta_Tarefa
 }
 
 

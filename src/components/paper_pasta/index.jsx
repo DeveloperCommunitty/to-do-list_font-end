@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import ModalPasta from "../modal_pasta";
 import ModalEditarPasta from "../modal_editar_pasta";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import  { useState } from "react";
+import { useState } from "react";
 import { useGetPlaylistsQuery, useDeletePlaylistMutation } from "../../server/api";
 
 export default function PaperPasta() {
@@ -48,7 +48,7 @@ export default function PaperPasta() {
   }
 
   const playlists = data?.data || [];
-  const totalPages = data?.totalPage || 1;
+  const totalPages = data?.totalPages || 1;
 
   const filteredPlaylists = playlists.filter((playlist) =>
     playlist.name.toLowerCase().includes(searchTerm.toLowerCase())
