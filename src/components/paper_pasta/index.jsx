@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import ModalPasta from "../modal_pasta";
 import ModalEditarPasta from "../modal_editar_pasta";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import ListIcon from "@mui/icons-material/List";
 import { useState } from "react";
 import { useGetPlaylistsQuery, useDeletePlaylistMutation } from "../../server/api";
 
@@ -53,6 +54,10 @@ export default function PaperPasta() {
   const filteredPlaylists = playlists.filter((playlist) =>
     playlist.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleNavigateToTarefas = (playlistId) => {
+    navigate(`/pasta_tarefa/${playlistId}`);
+  };
 
   return (
     <Box
@@ -143,7 +148,13 @@ export default function PaperPasta() {
             </Typography>
             <Stack direction="row" sx={{ alignItems: "center" }}>
               <ModalEditarPasta playlistId={playlist.id} />
-
+              <IconButton
+                aria-label="ver tarefas"
+                sx={{ border: "2px solid black", ml: 1 }}
+                onClick={() => handleNavigateToTarefas(playlist.id)}
+              >
+                <ListIcon />
+              </IconButton>
               <IconButton
                 aria-label="delete"
                 size="medium"

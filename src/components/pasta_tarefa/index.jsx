@@ -17,7 +17,7 @@ import Grid from "@mui/material/Grid";
 import  { useState } from "react";
 import { useDeleteTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation } from "../../server/api";
 
-export default function SimplePaper() {
+export default function Paper_Pasta_Tarefa() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [status, setStatus] = useState(false);
