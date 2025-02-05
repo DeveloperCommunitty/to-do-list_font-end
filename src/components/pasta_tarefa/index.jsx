@@ -15,7 +15,8 @@ import ModalEditar from "../modal_editar";
 import { useNavigate } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import  { useState } from "react";
-import { useDeleteTaskMutation, useGetTasksQuery, useUpdateTaskStatusMutation } from "../../server/api";
+import { useParams } from "react-router-dom";
+import { useDeleteTaskMutation, useGetPlaylistByIdQuery, useUpdateTaskStatusMutation } from "../../server/api";
 
 export default function Paper_Pasta_Tarefa() {
   const navigate = useNavigate();
@@ -23,10 +24,10 @@ export default function Paper_Pasta_Tarefa() {
   const [status, setStatus] = useState(false);
   const [filterCompleted, setFilterCompleted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const { playlistId } = useParams(); 
 
-  const { data, isLoading, isError, error } = useGetTasksQuery({
-    page: currentPage,
-  });
+
+  const { data, isLoading, isError, error } = useGetPlaylistByIdQuery({playlistId});
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -55,14 +56,15 @@ export default function Paper_Pasta_Tarefa() {
   };
 
   if (isLoading) {
-    return <div>Carregando...</div>;
+    return <div>Carregando tarefas...</div>;
   }
 
   if (isError) {
     return <div>Erro ao carregar tarefas: {error.message}</div>;
   }
 
-  const tasks = data?.data || [];
+  const tasks = data?.Task || [];
+  console.log(data.Task)
   const totalPages = data?.totalPage || 1;
 
   const filteredTasks = tasks.filter((task) => {

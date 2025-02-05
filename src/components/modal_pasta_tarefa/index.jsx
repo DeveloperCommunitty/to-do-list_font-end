@@ -9,21 +9,22 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
-import { useCreateTaskMutation } from "../../server/api";
+import { useParams } from "react-router-dom";
+import { useCreateTaskWithPlaylistMutation } from "../../server/api";
 
 
 export default function ModalPastaTarefa() {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const createTaskMutation = useCreateTaskMutation();
+  const { playlistId } = useParams();
+  const playlistMutation = useCreateTaskWithPlaylistMutation(); 
 
   const handleAddTask = async () => {
     try {
-      await createTaskMutation.mutateAsync({ title, description });
+      await playlistMutation.mutateAsync({ title, description, playlistId });
 
       setOpen(false);
-
       setTitle("");
       setDescription("");
     } catch (error) {

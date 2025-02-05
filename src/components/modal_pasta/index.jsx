@@ -13,7 +13,7 @@ import { useCreatePlaylistMutation } from "../../server/api";
 
 export default function ModalPasta() {
   const [name, setName] = React.useState("");
-    const [description, setDescription] = React.useState("");
+  const [description, setDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   const createPlaylist = useCreatePlaylistMutation()

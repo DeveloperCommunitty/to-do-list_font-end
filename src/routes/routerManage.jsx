@@ -50,16 +50,27 @@ export const RouterManager = () => {
     []
   );
 
+  const backgroundStyle = {
+    minHeight: "100vh",
+    backgroundImage: "url('./assets/background.jpeg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
+  };
+
+
   return (
     <>
       <CssBaseline />
       <GlobalStyles styles={{ body: { margin: 0, padding: 0 }, html: { margin: 0, padding: 0 } }} />
       <BrowserRouter>
-        <Routes>
-          {Publicroute}
-          {Privateroutes}
-          {Adminroutes}
-        </Routes>
+        <div style={backgroundStyle}> 
+          <Routes>
+            {Publicroute}
+            {Privateroutes}
+            {Adminroutes}
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );

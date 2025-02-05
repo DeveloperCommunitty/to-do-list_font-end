@@ -30,7 +30,7 @@ export default function SimplePaper() {
     try {
       setError(null);
       await login(credentials);
-      const role = user.role
+      const role = user?.role
       if (role == 'USER') {
          navigate("/tarefas");
       }
