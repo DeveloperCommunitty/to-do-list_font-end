@@ -10,7 +10,7 @@ import Input from "@mui/material/Input";
 import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
 import FolderIcon from "@mui/icons-material/Folder";
-import ModalTarefa from "../modal_tarefa";
+import ModalPastaTarefa from "../modal_pasta_tarefa";
 import ModalEditar from "../modal_editar";
 import { useNavigate } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
@@ -63,8 +63,7 @@ export default function SimplePaper() {
   }
 
   const tasks = data?.data || [];
-  console.log(data)
-  const totalPages = data.totalPage || 1;
+  const totalPages = data?.totalPage || 1;
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()); 
@@ -102,7 +101,7 @@ export default function SimplePaper() {
             paddingBottom: "20px",
           }}
         >
-          <ModalTarefa />
+          <ModalPastaTarefa />
 
           <IconButton
             aria-label="done"

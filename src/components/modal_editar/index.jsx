@@ -1,6 +1,5 @@
 import * as React from "react";
 import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
 import Typography from "@mui/joy/Typography";
 import Sheet from "@mui/joy/Sheet";
 import { IconButton } from "@mui/joy";
@@ -10,9 +9,23 @@ import Input from "@mui/joy/Input";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { useEditTaskMutation } from "../../server/api";
 
-export default function ModalEditar() {
+// eslint-disable-next-line react/prop-types
+export default function ModalEditar({ taskId }) {
   const [open, setOpen] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
+
+  const editTaskMutation = useEditTaskMutation();
+
+  const handleEditTask = async () => {
+      await editTaskMutation.mutateAsync({ id: taskId, title, description });
+
+      setOpen(false)
+      setTitle("");
+      setDescription("");
+  };
   return (
     <React.Fragment>
       <IconButton
@@ -67,12 +80,22 @@ export default function ModalEditar() {
           <Stack spacing={2}>
             <FormControl>
               <FormLabel>Nome da Tarefa</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input
+                required
+                placeholder="Digite aqui"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </FormControl>
 
             <FormControl>
               <FormLabel>Descrição da Tarefa</FormLabel>
-              <Input required placeholder="Digite aqui" />
+              <Input
+                required
+                placeholder="Digite aqui"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </FormControl>
           </Stack>
           <Button
@@ -83,8 +106,9 @@ export default function ModalEditar() {
               border: "2px solid black",
               color: "black",
             }}
+            onClick={handleEditTask}
           >
-            Adicionar
+            Atualizar
           </Button>
         </Sheet>
       </Modal>

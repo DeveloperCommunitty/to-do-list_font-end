@@ -12,7 +12,7 @@ import Button from "@mui/joy/Button";
 import { useCreateTaskMutation } from "../../server/api";
 
 
-export default function ModalTarefa() {
+export default function ModalPastaTarefa() {
   const [open, setOpen] = React.useState(false);
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");

@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
-import ResponsiveAppBar from "../../components/navbar";
+import ResponsiveAppBarLogin from "../../components/navbar_login";
 import SimplePaper from "../../components/Login";
 import SimplePaper2 from "../../components/image";
 
 export default function Login() {
   return (
     <Box>
-      <ResponsiveAppBar />
+      <ResponsiveAppBarLogin />
       <Box
         sx={{
           display: "flex",
