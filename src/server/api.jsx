@@ -168,16 +168,21 @@ export const useDeleteTaskMutation = () => {
 // Funções de requisição para autenticação e recuperação de senha
 const checkEmail = async (email) => {
   const response = await api.post('/restore', { email });
+  localStorage.setItem('codigo_id', response.data.passwordRedefinition.id);
   return response.data;
 };
 
 const checkCod = async (cod) => {
-  const response = await api.post("/restore/confirmed", { cod });
+  const id = localStorage.getItem('codigo_id');
+  console.log(id)
+  const response = await api.post("/restore/confirmed", { token: cod,tokenId:id });
   return response.data;
 };
 
 const updatePasswd = async (password) => {
-  const response = await api.patch("/restore/new-credentials", { password });
+  const id = localStorage.getItem('codigo_id');
+  const response = await api.patch("/restore/new-credentials", { password,tokenId:id});
+
   return response.data;
 };
 
