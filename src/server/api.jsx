@@ -34,19 +34,6 @@ export const getUserQuery = (page, pageSize) => {
   });
 }
 
-// export const useDeleteUserMutation = () => {
-//   const queryClient = useQueryClient();
-
-//   return useMutation(deleteUser, {
-//     onSuccess: () => {
-//       queryClient.invalidateQueries(['users']);
-//     },
-//     onError: (error) => {
-//       console.error('Falha ao deletar usuário:', error);
-//     },
-//   });
-// };
-
 const createTask = async (taskData) => {
   const response = await api.post('/tarefa', taskData);
   return response.data;
@@ -97,10 +84,18 @@ const getPlaylists = async ({ page, pageSize = 5 }) => {
 };
 
 const getPlaylistById = async (playlistId) => {
-  const response = await api.get(`/playlist/${playlistId}`);
+  const response = await api.get(`/playlist/${playlistId.playlistId}`);
   return response.data;
 };
 
+const postTaskWithPlaylist = async ({playlistId, title, description}) => {
+  const response = await api.post(`/tarefa/with/playlist`, {
+    playlistId: playlistId, 
+    title: title, 
+    description: description
+  });
+  return response.data;
+};
 
 export const useGetTasksQuery = (taskParams) => {
   return useQuery({
@@ -267,6 +262,21 @@ export const useDeletePlaylistMutation = () => {
     },
     onError: (error) => {
       console.error('Remoção de playlist falhou:', error);
+    },
+  });
+};
+
+export const useCreateTaskWithPlaylistMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ playlistId, title, description }) => 
+      postTaskWithPlaylist({ playlistId, title, description }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+    },
+    onError: (error) => {
+      console.error("Erro ao criar tarefa:", error);
     },
   });
 };

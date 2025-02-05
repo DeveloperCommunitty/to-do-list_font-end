@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import { deleteUser, getUserQuery } from "../../server/api";
 
+
 export default function AdminPage() {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");

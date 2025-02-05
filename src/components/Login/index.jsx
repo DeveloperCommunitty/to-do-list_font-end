@@ -30,12 +30,12 @@ export default function SimplePaper() {
     try {
       setError(null);
       await login(credentials);
-      const role = user.role;
-      console.log("Role do usuário:", role);
-      if (role === 'USER') {
-        navigate("/tarefas");
-      } else if (role === "ADMIN") {
-        navigate("/administracao");
+      const role = user?.role
+      if (role == 'USER') {
+         navigate("/tarefas");
+      }
+      else if (role == "ADMIN") {
+        navigate("/administracao")
       }
     } catch (error) {
       console.log(error);

@@ -63,7 +63,8 @@ export default function SimplePaper() {
   }
 
   const tasks = data?.data || [];
-  const totalPages = data?.totalPage || 1;
+  console.log(data)
+  const totalPages = data.totalPage || 1;
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()); 
